@@ -1,0 +1,4 @@
+@EndUserText.label: 'Preview ky leye firoi'
+define service ZUI_STUDENT_GRADES {
+  expose ZC_STUDENT_GRADES as StudentGrades;
+}

@@ -1,0 +1,36 @@
+managed implementation in class zbp_i_student_grades unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_STUDENT_GRADES alias StudentGrades
+persistent table zstudent_grades
+draft table zstudent_graded
+lock master total etag LastChangedAt
+authorization master ( none )
+{
+  create;
+  update;
+  delete;
+
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  // Ye Mapping block database columns ko CDS fields se map karega
+  mapping for zstudent_grades
+  {
+    StudentId = student_id;
+    StudentName = student_name;
+    Subject = subject;
+    Marks = marks;
+    Grade = grade;
+    LastChangedAt = last_changed_at;
+  }
+
+  field ( readonly ) Grade, LastChangedAt;
+  field ( mandatory ) StudentId, Marks;
+
+  determination calculateGrade on modify { field Marks; }
+}
